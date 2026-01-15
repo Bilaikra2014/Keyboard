@@ -62,6 +62,7 @@ Le récepteur utilise les bibliothèques `USB.h` et `USBHIDKeyboard.h` pour simu
 ---
 
 Datasheet ESP32 C3 : https://documentation.espressif.com/esp32-c3_datasheet_en.pdf
+
 Datasheet ESP32 S3 : https://documentation.espressif.com/esp32-s3_datasheet_en.pdf
 
 ## 📂 Structure du projet
