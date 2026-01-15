@@ -21,7 +21,7 @@ L'architecture se divise en trois axes de développement :
 
 ### 1. Le Clavier (ESP32-S3)
 Le choix de l'**ESP32-S3** est motivé par son support **USB natif**, indispensable pour le mode filaire.
-* ** Prise USB C pour le mode filaire.
+* **Prise USB C** pour le mode filaire.
 * **Alimentation :** Batterie LiPo 1S (3.7V).
 * **Régulation :** Passage du 3.7V/5V vers 3.3V via un régulateur de tension (LDO).
 * **Gestion de charge :** Circuit de charge intégré permettant :
