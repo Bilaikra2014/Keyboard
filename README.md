@@ -1,8 +1,6 @@
 # ⌨️ WirelessKeyboard Project
 
-Ce projet a pour objectif la conception et la fabrication d'un clavier mécanique **bi-mode** (Filaire USB-C / Sans-fil 2.4GHz) haute performance. Le système repose sur un écosystème ESP32 permettant une communication rapide et personnalisée.
-
----
+Ce projet a pour objectif la conception et la fabrication d'un clavier mécanique **bi-mode** (Filaire USB-C / Sans-fil) haute performance. Le système repose sur un écosystème ESP32 permettant une communication rapide et personnalisée. Ce projet est une première version de test, une autre version pourrait être conçue dans le but de rechercher encore plus de perfomance en utilisant des composants plus adaptés.
 
 ## 📋 Présentation du projet
 
@@ -13,7 +11,7 @@ Le projet consiste à créer deux dispositifs distincts :
 L'architecture se divise en trois axes de développement :
 * **Électronique :** Conception des schémas et des PCB.
 * **Informatique :** Développement des firmwares d'émission et de réception.
-* **Mécanique :** Conception CAO 3D du boîtier et du dongle.
+* **Mécanique :** Conception CAO 3D du boîtier du clavier et de celui dongle.
 
 ---
 
@@ -31,7 +29,7 @@ Le choix de l'**ESP32-S3** est motivé par son support **USB natif**, indispensa
 
 ### 2. Le Récepteur (ESP32-C3)
 L'**ESP32-C3** est utilisé pour son format compact et son coût réduit. Il fait office de pont entre le clavier et le PC.
-
+* **Prise USB A** pour le brancher à l'ordinateur.
 * **Interface :** Prise USB-A mâle.
 * **Alimentation :** LDO convertissant le 5V USB en 3.3V.
 * **Contrôles physiques :**
@@ -51,8 +49,6 @@ L'**ESP32-C3** est utilisé pour son format compact et son coût réduit. Il fai
 Pour minimiser la latence, le projet utilise **ESP-NOW**, un protocole de connexion sans fil à basse consommation d'Espressif.
 * Communication directe par adresse MAC (pas de handshake Wi-Fi lourd).
 * Optimisé pour l'envoi de paquets courts (frappes de touches).
-
-[Image of ESP-NOW communication protocol architecture]
 
 ### Communication PC (USB HID)
 Le récepteur utilise les bibliothèques `USB.h` et `USBHIDKeyboard.h` pour simuler un clavier standard auprès du système d'exploitation.
