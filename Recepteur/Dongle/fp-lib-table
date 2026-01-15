@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "ESP32-S3-WROOM-1-N16R8")(type "KiCad")(uri "C:/Users/axelt/Documents/GitHub/WirelessKeyboard/Kicad/lib/ESP32-S3-WROOM-1-N16R8")(options "")(descr ""))
+)
