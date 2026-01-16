@@ -29,7 +29,7 @@ Le choix de l'**ESP32-S3** est motivé par son support **USB natif**, indispensa
 
 ### 2. Le Récepteur (ESP32-S3-MINI)
 
-<img width="385" height="435" alt="image" src="https://github.com/user-attachments/assets/e0a32e45-124e-4145-9cae-09294856f0fe" /><img width="391" height="436" alt="image" src="https://github.com/user-attachments/assets/e0976d60-9b48-4f87-9636-3a40db272575" />
+<img width="192" height="217" alt="image" src="https://github.com/user-attachments/assets/e0a32e45-124e-4145-9cae-09294856f0fe" />      <img width="195" height="218" alt="image" src="https://github.com/user-attachments/assets/e0976d60-9b48-4f87-9636-3a40db272575" />
 
 
 L'**ESP32-S3-MINI** est utilisé pour son format compact et son coût réduit. Il fait office de pont entre le clavier et le PC.
