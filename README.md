@@ -69,10 +69,10 @@ Datasheet ESP32 S3 : https://documentation.espressif.com/esp32-s3_datasheet_en.p
 
 ```text
 .
-├── 📁 Electronics         # Schémas et typons (KiCad/Altium)
-├── 📁 Firmware            # Code source Arduino/ESP-IDF
-│   ├── 📁 Keyboard_S3     # Code de l'émetteur
-│   └── 📁 Dongle_C3       # Code du récepteur (HID)
+├── 📁 Electronique            # Schémas et typons (KiCad)
+├── 📁 Informatique            # Code source ESP32
+│   ├── 📁 Clavier                # Code de l'émetteur
+│   └── 📁 Recepteur              # Code du récepteur
 ├── 📁 Mechanical          # Modèles 3D (STL/STEP)
 └── README.md
 
