@@ -27,8 +27,12 @@ Le choix de l'**ESP32-S3** est motivé par son support **USB natif**, indispensa
     * La recharge simultanée de la batterie.
     * Le basculement automatique sur batterie lors du débranchement.
 
-### 2. Le Récepteur (ESP32-C3)
-L'**ESP32-C3** est utilisé pour son format compact et son coût réduit. Il fait office de pont entre le clavier et le PC.
+### 2. Le Récepteur (ESP32-S3-MINI)
+
+<img width="192" height="217" alt="image" src="https://github.com/user-attachments/assets/e0a32e45-124e-4145-9cae-09294856f0fe" />      <img width="195" height="218" alt="image" src="https://github.com/user-attachments/assets/e0976d60-9b48-4f87-9636-3a40db272575" />
+
+
+L'**ESP32-S3-MINI** est utilisé pour son format compact et son coût réduit. Il fait office de pont entre le clavier et le PC.
 * **Prise USB A** pour le brancher à l'ordinateur.
 * **Interface :** Prise USB-A mâle.
 * **Alimentation :** LDO convertissant le 5V USB en 3.3V.
@@ -57,7 +61,7 @@ Le récepteur utilise les bibliothèques `USB.h` et `USBHIDKeyboard.h` pour simu
 
 ---
 
-Datasheet ESP32 C3 : https://documentation.espressif.com/esp32-c3_datasheet_en.pdf
+Datasheet ESP32-S3-MINI : [https://documentation.espressif.com/esp32-c3_datasheet_en.pdf](https://documentation.espressif.com/esp32-s3-mini-1_mini-1u_datasheet_en.pdf)
 
 Datasheet ESP32 S3 : https://documentation.espressif.com/esp32-s3_datasheet_en.pdf
 
