@@ -69,10 +69,13 @@ Datasheet ESP32 S3 : https://documentation.espressif.com/esp32-s3_datasheet_en.p
 
 ```text
 .
-├── 📁 Electronique            # Schémas et typons (KiCad)
-├── 📁 Informatique            # Code source ESP32
-│   ├── 📁 Clavier                # Code de l'émetteur
-│   └── 📁 Recepteur              # Code du récepteur
-├── 📁 Mechanical          # Modèles 3D (STL/STEP)
-└── README.md
+├── 📁 Electronique        # Schémas et PCB (KiCad)
+│   ├── 📁 Lib                # Librairie Kicad
+│   ├── 📁 Clavier            # Code de l'émetteur
+│   └── 📁 Recepteur          # Code du récepteur
+├── 📁 Informatique        # Code source ESP32
+│   ├── 📁 Clavier            # Code de l'émetteur
+│   └── 📁 Recepteur          # Code du récepteur
+├── 📁 Mechanique          # Modèles 3D (STL/STEP)
+└── README.md               #README global du projet
 
