@@ -9,6 +9,7 @@ Pour gérer l'alimentation et la charge, le composant utilisé sera le MCP73871-
   - **Partage du courant** : Donne la priorité à l'alimentation du système, le courant restant est alloué à la charge de la batterie
 
 **Tableau récapitulatif du composant** : 
+
 <img width="639" height="441" alt="image" src="https://github.com/user-attachments/assets/2ba45c75-0c7c-4a13-8067-5ee3316ca5b4" />
 
 **Alimentation et Puissance**
