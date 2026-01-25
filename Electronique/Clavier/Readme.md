@@ -7,7 +7,8 @@ Pour gérer l'alimentation et la charge, le composant utilisé sera le [MCP73871
   - **Gestion du Power Path** : Alimente le système depuis l'USB tout en gérant la charge la batterie
   - **Partage du courant** : Donne la priorité à l'alimentation du système, le courant restant est alloué à la charge de la batterie
 
-<div align="center"><img width="490" height="271" alt="image" src="https://github.com/user-attachments/assets/9d26c01b-241d-4708-a64f-6cdc560a6c05" /></div>
+<div align="center"><img width="757" height="426" alt="image" src="https://github.com/user-attachments/assets/2803e40a-cd94-4d11-8320-4aa35526f54a" />
+</div>
 
 **Alimentation et Puissance**
   - In (18) : Alimentation du composant -> USB
@@ -28,8 +29,8 @@ Pour gérer l'alimentation et la charge, le composant utilisé sera le [MCP73871
   - VBAT_S (16): Sonde de tension -> Vbat
   - THERM (5)  : Capteur de temperature ->  
 
-**Indicateurs visuel**: Ces broches tirent vers la masse, 
-  - PG (6)    : Indication que l'USB est branché
+**Indicateurs visuel**: Ces broches tirent vers la masse, on y connecte des leds
+  - PG (6)    : Indication que l'USB est branché, à brancher à l'ESP32 pour qu'il detecte si on est sur batterie ou USB
   - STAT1 (8) : Indication de la phase de charge 
   - STAT2 (7) : Indication de la fin de charge 
 
@@ -45,7 +46,9 @@ La mesure de la batterie permet d'indiquer à l'utilisateur si le clavier à bes
 
 <div align="center"><img width="666" height="443" alt="image" src="https://github.com/user-attachments/assets/8bd8ae78-2606-4d83-96ab-d49c5fb32c62" /></div>
 
-**Ajout des transistors Q3 et Q4**
+
+**Ajout des transistors Q3 et Q4**:
+
 Utiliser simplement un pont diviseur consommerait du courant en permance, ici 13µA. C'est pour cela que des transistors ont été ajouté. Le transistor Q3 est un mosfet canal P, qui lie la batterie au pont diviseur lorsqu'il est passant. Ce transistor est piloté par son complémentaire Q4, un canal N commandé par l'esp32. Ce transistor sera passant uniquement lors de la mesure. La résistance R9 sert de pull-up pour maintenir le transistor Q3 bloqué quand Q4 est bloqué.
 
 
