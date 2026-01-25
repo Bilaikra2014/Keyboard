@@ -41,9 +41,9 @@ Le régulateur de tension utilisé est un [TLV75533PDBV](https://www.ti.com/lit/
 
 ## Mesure de la batterie
 
-<div align="center"><img width="666" height="443" alt="image" src="https://github.com/user-attachments/assets/8bd8ae78-2606-4d83-96ab-d49c5fb32c62" /></div>
-
 La mesure de la batterie permet d'indiquer à l'utilisateur si le clavier à besoin d'être chargé ou pas. La tension étant supérieur aux 3v3 de l'esp32, il faut diviser cette tension pour qu'elle puisse être lue par l'esp32 à travers un pont diviseur de tension.
+
+<div align="center"><img width="666" height="443" alt="image" src="https://github.com/user-attachments/assets/8bd8ae78-2606-4d83-96ab-d49c5fb32c62" /></div>
 
 **Ajout des transistors Q3 et Q4**
 Utiliser simplement un pont diviseur consommerait du courant en permance, ici 13µA. C'est pour cela que des transistors ont été ajouté. Le transistor Q3 est un mosfet canal P, qui lie la batterie au pont diviseur lorsqu'il est passant. Ce transistor est piloté par son complémentaire Q4, un canal N commandé par l'esp32. Ce transistor sera passant uniquement lors de la mesure. La résistance R9 sert de pull-up pour maintenir le transistor Q3 bloqué quand Q4 est bloqué.
