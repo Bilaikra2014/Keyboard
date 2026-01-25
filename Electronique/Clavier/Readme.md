@@ -14,19 +14,19 @@ Pour gérer l'alimentation et la charge, le composant utilisé sera le MCP73871-
 
 **Alimentation et Puissance**
   - In (18) : Alimentation du composant -> USB
-  - Out (20)  : Alimentation du système -> Régulateur LDO
+  - Out (20) : Alimentation du système -> Régulateur LDO
   - Vbat (14) : Charge de la batterie -> Vbat
   - Vss (10) : Masse -> GND
 
 **Contrôle et Logique**:
-  - SEL (3) : 
-  - PROG2 (4) :
+  - SEL (3) : Limite de courant à tirer sur l'USB -> LOW pour 500 mA (HIGH pour 1,8)
+  - PROG2 (4) : Courant d'entré max à tirer -> HIGH pour 500 mA (HIGH pour 100mA)  
   - CE (17) : Activation du système à l'état haut -> Vusb
   - TE (9) : Sécurité interne du temps de charge -> GND
 
 **Programmation et Sécurité**:
-  - PROG1 (13) : Courant de charge rapide
-  - PROG3 (12) : Seuil de fin de charge
+  - PROG1 (13) : Courant de charge rapide -> R = 1000V/Ireg, on veut Ireg = 250mA donc R = 4k
+  - PROG3 (12) : Seuil de fin de charge -> R = 40k
   - VPCC (2)   : 
   - VBAT_S (16): Sonde de tension -> Vbat
   - THERM (5)  : Capteur de temperature ->  
