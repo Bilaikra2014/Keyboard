@@ -52,6 +52,17 @@ La mesure de la batterie permet d'indiquer à l'utilisateur si le clavier à bes
 Utiliser simplement un pont diviseur consommerait du courant en permance, ici 13µA. C'est pour cela que des transistors ont été ajouté. Le transistor Q3 est un mosfet canal P, qui lie la batterie au pont diviseur lorsqu'il est passant. Ce transistor est piloté par son complémentaire Q4, un canal N commandé par l'esp32. Ce transistor sera passant uniquement lors de la mesure. La résistance R9 sert de pull-up pour maintenir le transistor Q3 bloqué quand Q4 est bloqué.
 
 
+## USB-C et protection ESD
+
+Le port USB-C permet l'utilisation filaire du clavier, ainsi que la recharge de la batterie.
+
+<div align="center"><img width="567" height="422" alt="image" src="https://github.com/user-attachments/assets/f7c76be5-70a3-47e6-85a2-f7505da04b4e" /></div>
+
+Les broches D+ et D- permettent la communication ESP32-Ordinateur. 
+Les broches CC1 et CC2 doivent être liées à des résistances de 5k1 de pull-down pour que la source détecte la présence du clavier et délivre ainsi le 5v.
+
+
+
 
 
 
