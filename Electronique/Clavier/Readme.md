@@ -54,7 +54,9 @@ Utiliser simplement un pont diviseur consommerait du courant en permance, ici 13
 
 ## USB-C et protection ESD
 
-<div align="center"><img width="567" height="422" alt="image" src="https://github.com/user-attachments/assets/f7c76be5-70a3-47e6-85a2-f7505da04b4e" /></div>div>
+Le port USB-C permet l'utilisation filaire du clavier, ainsi que la recharge de la batterie.
+
+<div align="center"><img width="567" height="422" alt="image" src="https://github.com/user-attachments/assets/f7c76be5-70a3-47e6-85a2-f7505da04b4e" /></div>
 
 Les broches D+ et D- permettent la communication ESP32-Ordinateur. 
 Les broches CC1 et CC2 doivent être liées à des résistances de 5k1 de pull-down pour que la source détecte la présence du clavier et délivre ainsi le 5v.
