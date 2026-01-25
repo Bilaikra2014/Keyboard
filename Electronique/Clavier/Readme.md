@@ -4,7 +4,7 @@
 
 Lorsque la batterie est déchargée, le clavier sera branché à l'ordinateur via une prise USB. La prise de l'ordinateur va alimenter le clavier, et charger la batterie avec le courant restant. Une prise USB A d'ordinateur peut fournir en général jusqu'à 500 mA. 
 
-Pour gérer l'alimentation et la charge, le composant utilisé sera le MCP73871-2CC qui permet : 
+Pour gérer l'alimentation et la charge, le composant utilisé sera le [MCP73871-2CC ]([url](https://ww1.microchip.com/downloads/en/DeviceDoc/MCP73871-Data-Sheet-20002090E.pdf))qui permet : 
   - **Gestion du Power Path** : Alimente le système depuis l'USB tout en gérant la charge la batterie
   - **Partage du courant** : Donne la priorité à l'alimentation du système, le courant restant est alloué à la charge de la batterie
 
