@@ -1,6 +1,6 @@
  # Partie electronique du clavier
 
-#### Gestion d'alimentation et Chargeur Li-Po
+## Gestion d'alimentation et Chargeur Li-Po
 
 Lorsque la batterie est déchargée, le clavier sera branché à l'ordinateur via une prise USB. La prise de l'ordinateur va alimenter le clavier, et charger la batterie avec le courant restant. Une prise USB A d'ordinateur peut fournir en général jusqu'à 500 mA. 
 
@@ -8,9 +8,7 @@ Pour gérer l'alimentation et la charge, le composant utilisé sera le [MCP73871
   - **Gestion du Power Path** : Alimente le système depuis l'USB tout en gérant la charge la batterie
   - **Partage du courant** : Donne la priorité à l'alimentation du système, le courant restant est alloué à la charge de la batterie
 
-**Tableau récapitulatif du composant** : 
-
-<img width="639" height="441" alt="image" src="https://github.com/user-attachments/assets/2ba45c75-0c7c-4a13-8067-5ee3316ca5b4" />
+<center><img width="490" height="271" alt="image" src="https://github.com/user-attachments/assets/9d26c01b-241d-4708-a64f-6cdc560a6c05" /></center>
 
 **Alimentation et Puissance**
   - In (18) : Alimentation du composant -> USB
@@ -36,15 +34,25 @@ Pour gérer l'alimentation et la charge, le composant utilisé sera le [MCP73871
   - STAT1 (8) : Indication de la phase de charge 
   - STAT2 (7) : Indication de la fin de charge 
 
-#### Régulation et commutation
+## Régulateur de tension
 
-<img width="539" height="296" alt="image" src="https://github.com/user-attachments/assets/37fb33a5-5239-41c6-a92a-1e32511fd0b8" />
+Le régulateur de tension utilisé est un [TLV75533PDBV](https://www.ti.com/lit/ds/symlink/tlv755p.pdf). Il a une très faible tension de dropout, 238mV à 500mA.
 
-Comme le clavier peut fonctionner avec ou sans fil, il doit être capable de choisir entre les 2 tensions. La tension prioritaire sera l'USB qui alimentera le clavier et rechargera la batterie. Peu importe la tension, elle doit être régulée avant d'alimenté l'ESP32, à l'aide d'un LDO.
+<center><img width="485" height="313" alt="image" src="https://github.com/user-attachments/assets/4cba229e-1c08-4b6f-a833-131fdbe47bce" /></center>
 
-Pour choisir le LDO, en plus de regarder sa tension de sortie, il faut regarder la tension d'entrée minimale, ainsi 
+## Mesure de la batterie
+
+<center><img width="666" height="443" alt="image" src="https://github.com/user-attachments/assets/8bd8ae78-2606-4d83-96ab-d49c5fb32c62" /></center>
+
+La mesure de la batterie permet d'indiquer à l'utilisateur si le clavier à besoin d'être chargé ou pas. La tension étant supérieur aux 3v3 de l'esp32, il faut diviser cette tension pour qu'elle puisse être lue par l'esp32 à travers un pont diviseur de tension.
+
+**Ajout des transistors Q3 et Q4**
+Utiliser simplement un pont diviseur consommerait du courant en permance, ici 13µA. C'est pour cela que des transistors ont été ajouté. Le transistor Q3 est un mosfet canal P, qui lie la batterie au pont diviseur lorsqu'il est passant. Ce transistor est piloté par son complémentaire Q4, un canal N commandé par l'esp32. Ce transistor sera passant uniquement lors de la mesure. La résistance R9 sert de pull-up pour maintenir le transistor Q3 bloqué quand Q4 est bloqué.
 
 
-Quand l'USB n'est pas branché, la résistance R10 force le transistor à être passant, la tension qui rentre dans le LDO est donc celle de la batterie. Quand l'USB est branché, le transistor est bloqué et la schottky passante, c'est donc Vusb qui rentre dans le LDO.
 
-#### Mesure de la batterie
+
+
+
+
+
