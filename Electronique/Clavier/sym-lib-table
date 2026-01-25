@@ -1,4 +1,4 @@
 (sym_lib_table
   (version 7)
-  (lib (name "CherryMX")(type "Legacy")(uri "C:/Users/axelt/Documents/GitHub/Keyboard/Lib/kicad-libraries-master/symbols/CherryMX.lib")(options "")(descr ""))
+  (lib (name "New_Library")(type "KiCad")(uri "C:/Users/axelt/Documents/GitHub/Keyboard/Electronique/Lib/New_Library.kicad_sym")(options "")(descr ""))
 )

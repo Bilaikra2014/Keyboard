@@ -2620,7 +2620,7 @@
 		(uuid 19ab63b8-6591-4b90-bb9e-2fab4f251377)
 	)
 	(rectangle
-		(start 177.8 25.4)
+		(start 177.8 36.83)
 		(end 241.3 111.76)
 		(stroke
 			(width 0)
@@ -2699,7 +2699,7 @@
 	)
 	(text "ESP32 S3\n\n"
 		(exclude_from_sim no)
-		(at 215.646 22.86 0)
+		(at 208.026 36.322 0)
 		(effects
 			(font
 				(size 1.27 1.27)

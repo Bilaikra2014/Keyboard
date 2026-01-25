@@ -3,11 +3,14 @@
 #include <esp_now.h>
 #include <USB.h>
 #include <USBHIDKeyboard.h>
-
+#include <USBHIDConsumerControl.h> // Ajouter ceci
 USBHIDKeyboard Keyboard;
+USBHIDConsumerControl ConsumerControl;
+
 
 typedef struct {
-  char caractere;
+  char caractere;  
+  char cmd;
   bool maj; 
 } struct_message;
 
@@ -28,20 +31,35 @@ char _convert(uint8_t c){
 
 void OnDataRecv(const uint8_t * mac, const uint8_t *incomingDataRaw, int len) {
   memcpy(&incomingData, incomingDataRaw, sizeof(incomingData));
-  Keyboard.write(_convert(incomingData.caractere)); 
-  // if (incomingData.maj) {
-  //   Keyboard.press(KEY_LEFT_SHIFT);
-  // } else {
-  //   Keyboard.release(KEY_LEFT_SHIFT);
-  // }
-  // Keyboard.write(incomingData.caractere); 
+  if(incomingData.caractere){
+    Keyboard.write(_convert(incomingData.caractere)); 
+  }
+  else if (incomingData.cmd){
+    int cmd;
+    switch(incomingData.cmd){
+      case '+': cmd = CONSUMER_CONTROL_VOLUME_INCREMENT;break;
+      case '-': cmd = CONSUMER_CONTROL_VOLUME_DECREMENT;break;
+      case 'm': cmd = CONSUMER_CONTROL_MUTE;break;
+      
+    }
+    ConsumerControl.press(cmd);
+    ConsumerControl.release();
+  }
+
+  if (incomingData.maj) {
+    Keyboard.press(KEY_LEFT_SHIFT);
+  } else {
+    Keyboard.release(KEY_LEFT_SHIFT);
+  }
 }
 
 void setup() {
   Serial.begin(115200);
   Keyboard.begin();
+  ConsumerControl.begin();
   USB.begin();
   WiFi.mode(WIFI_STA);
+  Serial.println(WiFi.macAddress());
   if (esp_now_init() != ESP_OK) return;
   esp_now_register_recv_cb(esp_now_recv_cb_t(OnDataRecv));
   delay(2000);
