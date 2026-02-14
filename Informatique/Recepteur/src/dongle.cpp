@@ -6,8 +6,8 @@
 #include <USBHIDConsumerControl.h> // Ajouter ceci
 USBHIDKeyboard Keyboard;
 USBHIDConsumerControl ConsumerControl;
-
-
+bool ledstate = false;
+bool previousledstate = true;
 typedef struct {
   char caractere;  
   char cmd;
@@ -31,29 +31,39 @@ char _convert(uint8_t c){
 
 void OnDataRecv(const uint8_t * mac, const uint8_t *incomingDataRaw, int len) {
   memcpy(&incomingData, incomingDataRaw, sizeof(incomingData));
-  if(incomingData.caractere){
-    Keyboard.write(_convert(incomingData.caractere)); 
-  }
-  else if (incomingData.cmd){
-    int cmd;
+  ledstate = incomingData.maj;
+  // 1. Gérer les touches multimédia (Volume/Mute)
+  if (incomingData.cmd != '\0') {
+    uint16_t cmd_val = 0;
     switch(incomingData.cmd){
-      case '+': cmd = CONSUMER_CONTROL_VOLUME_INCREMENT;break;
-      case '-': cmd = CONSUMER_CONTROL_VOLUME_DECREMENT;break;
-      case 'm': cmd = CONSUMER_CONTROL_MUTE;break;
-      
+      case '+': cmd_val = CONSUMER_CONTROL_VOLUME_INCREMENT; break;
+      case '-': cmd_val = CONSUMER_CONTROL_VOLUME_DECREMENT; break;
+      case 'm': cmd_val = CONSUMER_CONTROL_MUTE; break;
     }
-    ConsumerControl.press(cmd);
-    ConsumerControl.release();
+    if (cmd_val != 0) {
+      ConsumerControl.press(cmd_val);
+      ConsumerControl.release();
+    }
   }
 
-  if (incomingData.maj) {
-    Keyboard.press(KEY_LEFT_SHIFT);
-  } else {
-    Keyboard.release(KEY_LEFT_SHIFT);
-  }
+  // 2. Gérer le clavier (Caractère + Shift)
+  if (incomingData.caractere != '\0') {
+    if (incomingData.maj) {
+        Keyboard.press(KEY_LEFT_SHIFT);
+    } else {
+        Keyboard.release(KEY_LEFT_SHIFT);
+    }
+    
+    Keyboard.write(_convert(incomingData.caractere));
+    
+    // On ne fait PAS de releaseAll() ici si on veut maintenir le shift
+    // Le write() s'occupe déjà de presser/relâcher la touche de la lettre
+}
 }
 
 void setup() {
+  pinMode(4,OUTPUT);
+  digitalWrite(4,LOW);
   Serial.begin(115200);
   Keyboard.begin();
   ConsumerControl.begin();
@@ -63,20 +73,11 @@ void setup() {
   if (esp_now_init() != ESP_OK) return;
   esp_now_register_recv_cb(esp_now_recv_cb_t(OnDataRecv));
   delay(2000);
-
-  // Keyboard.press(KEY_LEFT_CTRL);
-  // Keyboard.press('x');
-  // Keyboard.releaseAll();
-  // Keyboard.press(KEY_LEFT_CTRL);
-  // Keyboard.press('v');
-  // Keyboard.releaseAll();  
 }
 
 void loop() {
-  if(incomingData.maj == true){
-    Keyboard.press(KEY_LEFT_SHIFT);
-  }
-  else {
-    Keyboard.release(KEY_LEFT_SHIFT);
+  if(ledstate != previousledstate){
+    digitalWrite(4,ledstate);
+    previousledstate = ledstate;
   }
 }
