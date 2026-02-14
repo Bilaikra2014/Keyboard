@@ -1,6 +1,6 @@
 # ⌨️ WirelessKeyboard Project
 
-Ce projet a pour objectif la conception et la fabrication d'un clavier mécanique **bi-mode** (Filaire USB-C / Sans-fil) haute performance. Le système repose sur un écosystème ESP32 permettant une communication rapide et personnalisée. Ce projet est une première version de test, une autre version pourrait être conçue dans le but de rechercher encore plus de perfomance en utilisant des composants plus adaptés.
+Ce projet a pour objectif la conception et la fabrication d'un clavier mécanique (Filaire USB-C / Sans-fil). Le système repose sur un écosystème ESP32 permettant une communication rapide et personnalisée. Ce projet est une première version de test, une autre version pourrait être conçue dans le but de rechercher encore plus de perfomance en utilisant des composants plus adaptés.
 
 ## 📋 Présentation du projet
 
