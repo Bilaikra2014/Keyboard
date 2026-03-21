@@ -6,12 +6,17 @@
 #include <USBHIDConsumerControl.h> // Ajouter ceci
 USBHIDKeyboard Keyboard;
 USBHIDConsumerControl ConsumerControl;
-bool ledstate = false;
-bool previousledstate = true;
+bool MajState = false;
+bool previousMajState = true;
+
+bool CTRLState = false;
+bool previousCTRLState = true;
+
 typedef struct {
-  char caractere;  
+  char caractere; 
   char cmd;
-  bool maj; 
+  bool maj = false;
+  bool ctrl = false;
 } struct_message;
 
 struct_message incomingData;
@@ -31,7 +36,8 @@ char _convert(uint8_t c){
 
 void OnDataRecv(const uint8_t * mac, const uint8_t *incomingDataRaw, int len) {
   memcpy(&incomingData, incomingDataRaw, sizeof(incomingData));
-  ledstate = incomingData.maj;
+  MajState = incomingData.maj;
+  CTRLState = incomingData.ctrl;
   // 1. Gérer les touches multimédia (Volume/Mute)
   if (incomingData.cmd != '\0') {
     uint16_t cmd_val = 0;
@@ -46,23 +52,28 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingDataRaw, int len) {
     }
   }
 
+  if (incomingData.maj) {
+      Keyboard.press(KEY_LEFT_SHIFT);
+  } else {
+      Keyboard.release(KEY_LEFT_SHIFT);
+  }
+  if(incomingData.ctrl){
+    Keyboard.press(KEY_LEFT_CTRL);
+  } else {
+    Keyboard.release(KEY_LEFT_CTRL);
+  }
+
   // 2. Gérer le clavier (Caractère + Shift)
-  if (incomingData.caractere != '\0') {
-    if (incomingData.maj) {
-        Keyboard.press(KEY_LEFT_SHIFT);
-    } else {
-        Keyboard.release(KEY_LEFT_SHIFT);
-    }
-    
+  if (incomingData.caractere != '\0') {    
     Keyboard.write(_convert(incomingData.caractere));
-    
-    // On ne fait PAS de releaseAll() ici si on veut maintenir le shift
-    // Le write() s'occupe déjà de presser/relâcher la touche de la lettre
-}
+    Keyboard.releaseAll();
+  }  
 }
 
 void setup() {
   pinMode(4,OUTPUT);
+  pinMode(5,OUTPUT);
+  digitalWrite(4,LOW);
   digitalWrite(4,LOW);
   Serial.begin(115200);
   Keyboard.begin();
@@ -76,8 +87,12 @@ void setup() {
 }
 
 void loop() {
-  if(ledstate != previousledstate){
-    digitalWrite(4,ledstate);
-    previousledstate = ledstate;
+  if(MajState != previousMajState){
+    digitalWrite(4,MajState);
+    previousMajState = MajState;
+  }
+  if(CTRLState != previousCTRLState){
+    digitalWrite(5,CTRLState);
+    previousCTRLState = CTRLState;
   }
 }

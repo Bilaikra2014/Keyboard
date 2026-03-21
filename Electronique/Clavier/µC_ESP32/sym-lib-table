@@ -1,0 +1,5 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "BU33SD5WG-TR")(type "KiCad")(uri "${KIPRJMOD}/Librairie/symbol/BU33SD5WG-TR.kicad_sym")(options "")(descr ""))
+  (lib (name "ESP32S3N8R2")(type "KiCad")(uri "${KIPRJMOD}/Librairie/symbol/ESP32-S3-WROOM-1-N8R2.kicad_sym")(options "")(descr ""))
+)

@@ -1,4 +1,4 @@
-25599414493947826
+25604729921547191
 Audio_Module
 SOP65P640X120-8N
 
@@ -59149,13 +59149,6 @@ One digit LED 7 segment SA39-11 SC39-11 SA39-12 SC39-12
 0
 10
 10
-ESP32 S3 Mini
-XCVR_ESP32-S3-MINI-1-N8
-
-
-0
-73
-73
 Ferrite_THT
 LairdTech_28C0236-0JW-10
 Ferrite, vertical, LairdTech 28C0236-0JW-10, https://assets.lairdtech.com/home/brandworld/files/28C0236-0JW-10.pdf, JW Miller core https://www.bourns.com/products/magnetic-products/j.w.-miller-through-hole-ferrite-beads-emi-filters
@@ -70678,6 +70671,27 @@ threaded screw
 0
 4
 1
+MyFootprints
+434771025826
+
+
+0
+2
+2
+MyFootprints
+ESP32-S3-MINI-1-N8
+
+
+0
+73
+73
+MyFootprints
+SOT95P280X125-5N
+<b>BD45232G-TR-SSOP5</b><br>
+
+0
+5
+5
 NetTie
 NetTie-2_SMD_Pad0.5mm
 Net tie, 2 pin, 0.5mm square SMD pads
@@ -93596,6 +93610,13 @@ COM-15141
 0
 8
 8
+Rotary_Encoder
+COM15141
+COM-15141-1
+LED (Multiple)
+0
+10
+10
 Rotary_Encoder
 RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm
 Alps rotary encoder, EC11E... with switch, vertical shaft, http://www.alps.com/prod/info/E/HTML/Encoder/Incremental/EC11/EC11E15204A3.html
