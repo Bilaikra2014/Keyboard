@@ -7939,28 +7939,6 @@
 			)
 		)
 	)
-	(global_label "Col10"
-		(shape input)
-		(at 124.46 152.4 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "6429b5f4-a9b1-4ffa-bcbd-8687f8bb4bb3")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 132.9484 152.4 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "Check Batt"
 		(shape input)
 		(at 238.76 44.45 0)
@@ -8546,6 +8524,28 @@
 		(uuid "c05c9dc3-bdca-4efe-a6ff-33e1cd925b57")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 71.8676 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "Col10"
+		(shape input)
+		(at 124.46 137.16 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "c27a80ac-9a27-4510-b764-314a6ecfd36e")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 132.9484 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
