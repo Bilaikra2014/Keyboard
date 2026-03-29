@@ -76,6 +76,6 @@ Datasheet ESP32 S3 : https://documentation.espressif.com/esp32-s3_datasheet_en.p
 ├── 📁 Informatique        # Code source ESP32
 │   ├── 📁 Clavier            # Code de l'émetteur
 │   └── 📁 Recepteur          # Code du récepteur
-├── 📁 Mechanique          # Modèles 3D (STL/STEP)
+├── 📁 Mecanique          # Modèles 3D (STL/STEP)
 └── README.md               #README global du projet
 
