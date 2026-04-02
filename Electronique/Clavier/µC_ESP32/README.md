@@ -48,13 +48,14 @@ La mesure de la batterie permet d'indiquer à l'utilisateur si le clavier à bes
 <img width="775" height="513" alt="image" src="https://github.com/user-attachments/assets/aaa39b78-a281-44c3-a80c-9545639daac7" />
 
 
+
 **Pont Diviseur de tension**:
 
 Le pont diviseur de tension formé par R16 et R17 permet d'ajuster la tension mesurée par L'ESP32. La tension de la batterie varie entre 4v2 et 3v7, ce qui donnera pour l'ESP32 une tension mesurée entre 3v et 2,64v, ce qui est dans la plage de donnée mesurable.
 
 **Ajout des transistors Q3 et Q4**:
 
-Utiliser simplement un pont diviseur consommerait du courant en permanance, aussi minime soit-il. C'est pour cela que des transistors ont été ajouté. Le transistor Q2 est un mosfet canal P, qui lie la batterie au pont diviseur lorsqu'il est passant. Ce transistor est piloté par son complémentaire Q1, un canal N commandé par l'esp32. Ce transistor sera passant uniquement lors de la mesure déclenchée par l'ESP32. La résistance R15 sert de pull-up pour maintenir le transistor Q2 bloqué quand Q1 est bloqué.
+Utiliser simplement un pont diviseur consommerait du courant en permanance, aussi minime soit-il. C'est pour cela que des transistors ont été ajouté. Le transistor Q2 est un mosfet canal P, qui lie la batterie au pont diviseur lorsqu'il est passant. Ce transistor est piloté par son complémentaire Q1, un canal N commandé par l'esp32. Ce transistor sera passant uniquement lors de la mesure déclenchée par l'ESP32. La résistance R15 sert de pull-up pour maintenir le transistor Q2 bloqué quand Q1 est bloqué. Ce montage permet de relier le pont diviseur à la batterie uniquement lors de la mesure, limitant ainsi la consommation du pont diviseur.
 
 
 ## USB-C et protection ESD
