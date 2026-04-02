@@ -50,14 +50,10 @@ L'**ESP32-S3-MINI** est utilisé pour son format compact et son coût réduit. I
 ## 📡 Protocoles de Communication
 
 ### Communication Sans-fil (ESP-NOW)
-Pour minimiser la latence, le projet utilise **ESP-NOW**, un protocole de connexion sans fil à basse consommation d'Espressif.
-* Communication directe par adresse MAC (pas de handshake Wi-Fi lourd).
-* Optimisé pour l'envoi de paquets courts (frappes de touches).
+Pour minimiser la latence, le projet utilise **ESP-NOW**, un protocole de connexion sans fil à basse consommation d'Espressif annoncé avec une latence < 10ms.
 
 ### Communication PC (USB HID)
 Le récepteur utilise les bibliothèques `USB.h` et `USBHIDKeyboard.h` pour simuler un clavier standard auprès du système d'exploitation.
-* Reconnaissance **Plug & Play**.
-* Aucun pilote spécifique requis sur l'ordinateur cible.
 
 ---
 
