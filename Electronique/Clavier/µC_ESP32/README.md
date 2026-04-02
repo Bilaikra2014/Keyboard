@@ -1,4 +1,4 @@
- # Partie electronique du clavier
+ # Partie electronique - Microcontrôleur
 ## Gestion d'alimentation et Chargeur Li-Po
 
 Lorsque la batterie est déchargée, le clavier sera branché à l'ordinateur via une prise USB. La prise de l'ordinateur va alimenter le clavier, et charger la batterie avec le courant restant. Une prise USB A d'ordinateur peut fournir en général jusqu'à 500 mA. 
