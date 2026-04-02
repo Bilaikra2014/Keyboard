@@ -55,13 +55,9 @@ Pour minimiser la latence, le projet utilise **ESP-NOW**, un protocole de connex
 ### Communication PC (USB HID)
 Le récepteur utilise les bibliothèques `USB.h` et `USBHIDKeyboard.h` pour simuler un clavier standard auprès du système d'exploitation.
 
----
-
-Datasheet ESP32-S3-MINI : [https://documentation.espressif.com/esp32-c3_datasheet_en.pdf](https://documentation.espressif.com/esp32-s3-mini-1_mini-1u_datasheet_en.pdf)
-
-Datasheet ESP32 S3 : https://documentation.espressif.com/esp32-s3_datasheet_en.pdf
-
 ## 📂 Structure du projet
+
+Chaque sous-structure du projet aura son propre fichier Readme dédiée à la partie qu'elle traite.
 
 ```text
 .
