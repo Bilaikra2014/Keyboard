@@ -36,20 +36,25 @@ Pour gérer l'alimentation et la charge, le composant utilisé sera le [MCP73871
 
 ## Régulateur de tension
 
-Le µC sera alimenté par du 5v ou bien du 3v7, or il n'accepte que du 3v3. Il faut donc utiliser un régulateur de tension. Le régulateur de tension utilisé est un [BU33SD5WG-TR]([https://www.ti.com/lit/ds/symlink/tlv755p.pdf]). 
+Le µC sera alimenté par du 5v ou bien du 3v7, or il n'accepte que du 3v3. Il faut donc utiliser un régulateur de tension. Le régulateur de tension utilisé est un [BU33SD5WGTR](https://www.rohm.com/products/power-management/linear-regulators/single-output-ldo-regulators/bu33sd5wg-product).
 
-<div align="center"><img width="485" height="313" alt="image" src="https://github.com/user-attachments/assets/4cba229e-1c08-4b6f-a833-131fdbe47bce" /></div>
+<img width="673" height="385" alt="image" src="https://github.com/user-attachments/assets/ad128a30-9869-45a3-b217-4c7aa443c772" />
+
 
 ## Mesure de la batterie
 
 La mesure de la batterie permet d'indiquer à l'utilisateur si le clavier à besoin d'être chargé ou pas. La tension étant supérieur aux 3v3 de l'esp32, il faut diviser cette tension pour qu'elle puisse être lue par l'esp32 à travers un pont diviseur de tension.
 
-<div align="center"><img width="666" height="443" alt="image" src="https://github.com/user-attachments/assets/8bd8ae78-2606-4d83-96ab-d49c5fb32c62" /></div>
+<img width="775" height="513" alt="image" src="https://github.com/user-attachments/assets/aaa39b78-a281-44c3-a80c-9545639daac7" />
 
+
+**Pont Diviseur de tension**:
+
+Le pont diviseur de tension formé par R16 et R17 permet d'ajuster la tension mesurée par L'ESP32. La tension de la batterie varie entre 4v2 et 3v7, ce qui donnera pour l'ESP32 une tension mesurée entre 3v et 2,64v, ce qui est dans la plage de donnée mesurable.
 
 **Ajout des transistors Q3 et Q4**:
 
-Utiliser simplement un pont diviseur consommerait du courant en permance, ici 13µA. C'est pour cela que des transistors ont été ajouté. Le transistor Q3 est un mosfet canal P, qui lie la batterie au pont diviseur lorsqu'il est passant. Ce transistor est piloté par son complémentaire Q4, un canal N commandé par l'esp32. Ce transistor sera passant uniquement lors de la mesure. La résistance R9 sert de pull-up pour maintenir le transistor Q3 bloqué quand Q4 est bloqué.
+Utiliser simplement un pont diviseur consommerait du courant en permanance, aussi minime soit-il. C'est pour cela que des transistors ont été ajouté. Le transistor Q2 est un mosfet canal P, qui lie la batterie au pont diviseur lorsqu'il est passant. Ce transistor est piloté par son complémentaire Q1, un canal N commandé par l'esp32. Ce transistor sera passant uniquement lors de la mesure déclenchée par l'ESP32. La résistance R15 sert de pull-up pour maintenir le transistor Q2 bloqué quand Q1 est bloqué.
 
 
 ## USB-C et protection ESD
