@@ -1,71 +1,36 @@
- # Partie electronique du clavier
-## Gestion d'alimentation et Chargeur Li-Po
+ # Partie electronique - Matrice de touche et encodeur
+ 
+## Matrice de touche
 
-Lorsque la batterie est déchargée, le clavier sera branché à l'ordinateur via une prise USB. La prise de l'ordinateur va alimenter le clavier, et charger la batterie avec le courant restant. Une prise USB A d'ordinateur peut fournir en général jusqu'à 500 mA. 
+Le clavier comporte 71 touches. Avec un système de surveillance normal des touches, il faudrait 71 GPIOs ce qui est beaucoup trop. Un système de matrice à donc été utilisé, permettant ainsi de réduire le nombre de broches utilisées. La matrice de touche se compose de 5 lignes et 15 colonnes, ce qui fait que l'on utiliser que 20 GPIOs. 
 
-Pour gérer l'alimentation et la charge, le composant utilisé sera le [MCP73871](https://ww1.microchip.com/downloads/en/DeviceDoc/MCP73871-Data-Sheet-20002090E.pdf) qui permet : 
-  - **Gestion du Power Path** : Alimente le système depuis l'USB tout en gérant la charge la batterie
-  - **Partage du courant** : Donne la priorité à l'alimentation du système, le courant restant est alloué à la charge de la batterie
+**Fonctionnement de la matrice** : 
+- Le µC met successivement chaque ligne à l'état BAS.
+- Il lit ensuite l'état des colonnes maintenues à l'état HAUT par des résistances de pull-up.
+- Si une colonne est detectée à l'état BAS, c'est que la touche correspondant au croisement est activée.
 
-<div align="center"><img width="757" height="426" alt="image" src="https://github.com/user-attachments/assets/2803e40a-cd94-4d11-8320-4aa35526f54a" />
-</div>
+**Le problème du Ghosting** : 
 
-**Alimentation et Puissance**
-  - In (18) : Alimentation du composant -> USB
-  - Out (20) : Alimentation du système -> Régulateur LDO
-  - Vbat (14) : Charge de la batterie -> Vbat
-  - Vss (10) : Masse -> GND
+Sur une matrice simple, presser trois touches simultanément (ex: A, Q et S) peut créer un chemin de retour parasite. Le courant "remonte" par une ligne adjacente, faisant croire au contrôleur qu'une quatrième touche fantôme (Ghost) est pressée.
+Pour pallier ce problème, chaque interrupteur est couplé à une diode de signal 1N4148 : 
+- Rôle : Elle force le courant à circuler dans un seul sens (Ligne → Colonne).
+- Résultat : Cela permet le N-Key Rollover (NKRO), garantissant que chaque pression de touche est enregistrée indépendamment, quel que soit le nombre de touches pressées simultanément.
 
-**Contrôle et Logique**:
-  - SEL (3) : Limite de courant à tirer sur l'USB -> LOW pour 500 mA (HIGH pour 1,8)
-  - PROG2 (4) : Courant d'entré max à tirer -> HIGH pour 500 mA (HIGH pour 100mA)  
-  - CE (17) : Activation du système à l'état haut -> Vusb
-  - TE (9) : Sécurité interne du temps de charge -> GND
+Les touches utilisées sont des switchs mécanique **Cherry MX Red** commandés sur AliExpress.
 
-**Programmation et Sécurité**:
-  - PROG1 (13) : Courant de charge rapide -> R = 1000V/Ireg, on veut Ireg = 250mA donc R = 4k
-  - PROG3 (12) : Seuil de fin de charge -> R = 40k
-  - VPCC (2)   : 
-  - VBAT_S (16): Sonde de tension -> Vbat
-  - THERM (5)  : Capteur de temperature ->  
+<img width="1485" height="494" alt="image" src="https://github.com/user-attachments/assets/f18871fd-a640-4438-92dd-5cda5dff32b6" />
 
-**Indicateurs visuel**: Ces broches tirent vers la masse, on y connecte des leds
-  - PG (6)    : Indication que l'USB est branché, à brancher à l'ESP32 pour qu'il detecte si on est sur batterie ou USB
-  - STAT1 (8) : Indication de la phase de charge 
-  - STAT2 (7) : Indication de la fin de charge 
+## Gestion de l'encodeur
 
-## Régulateur de tension
+L'encodeur permet la gestion du volume.
 
-Le régulateur de tension utilisé est un [TLV75533PDBV](https://www.ti.com/lit/ds/symlink/tlv755p.pdf). Il a une très faible tension de dropout, 238mV à 500mA.
+L'encodeur utilisé (déjà présent à l'école) possède une fonction RGB avec les 3 diodes (pin 1,2 et 4) mais ne seront pas utilisée ici.
 
-<div align="center"><img width="485" height="313" alt="image" src="https://github.com/user-attachments/assets/4cba229e-1c08-4b6f-a833-131fdbe47bce" /></div>
-
-## Mesure de la batterie
-
-La mesure de la batterie permet d'indiquer à l'utilisateur si le clavier à besoin d'être chargé ou pas. La tension étant supérieur aux 3v3 de l'esp32, il faut diviser cette tension pour qu'elle puisse être lue par l'esp32 à travers un pont diviseur de tension.
-
-<div align="center"><img width="666" height="443" alt="image" src="https://github.com/user-attachments/assets/8bd8ae78-2606-4d83-96ab-d49c5fb32c62" /></div>
+<img width="785" height="335" alt="image" src="https://github.com/user-attachments/assets/04e54f50-811a-4e21-904e-551fb077ab4c" />
 
 
-**Ajout des transistors Q3 et Q4**:
+## Résultat final
 
-Utiliser simplement un pont diviseur consommerait du courant en permance, ici 13µA. C'est pour cela que des transistors ont été ajouté. Le transistor Q3 est un mosfet canal P, qui lie la batterie au pont diviseur lorsqu'il est passant. Ce transistor est piloté par son complémentaire Q4, un canal N commandé par l'esp32. Ce transistor sera passant uniquement lors de la mesure. La résistance R9 sert de pull-up pour maintenir le transistor Q3 bloqué quand Q4 est bloqué.
+Voici la vue 3D du Résultat final via logiciel : 
 
-
-## USB-C et protection ESD
-
-Le port USB-C permet l'utilisation filaire du clavier, ainsi que la recharge de la batterie.
-
-<div align="center"><img width="567" height="422" alt="image" src="https://github.com/user-attachments/assets/f7c76be5-70a3-47e6-85a2-f7505da04b4e" /></div>
-
-Les broches D+ et D- permettent la communication ESP32-Ordinateur. 
-Les broches CC1 et CC2 doivent être liées à des résistances de 5k1 de pull-down pour que la source détecte la présence du clavier et délivre ainsi le 5v.
-
-
-
-
-
-
-
-
-
+<img width="1273" height="477" alt="image" src="https://github.com/user-attachments/assets/1e305cb9-c0e5-4f89-b4f4-5638d6034bb3" />
