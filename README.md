@@ -47,14 +47,6 @@ L'**ESP32-S3-MINI** est utilisé pour son format compact et son coût réduit. I
 
 ---
 
-## 📡 Protocoles de Communication
-
-### Communication Sans-fil (ESP-NOW)
-Pour minimiser la latence, le projet utilise **ESP-NOW**, un protocole de connexion sans fil à basse consommation d'Espressif annoncé avec une latence < 10ms.
-
-### Communication PC (USB HID)
-Le récepteur utilise les bibliothèques `USB.h` et `USBHIDKeyboard.h` pour simuler un clavier standard auprès du système d'exploitation.
-
 ## 📂 Structure du projet
 
 Chaque sous-structure du projet aura son propre fichier Readme dédiée à la partie qu'elle traite.
@@ -62,12 +54,12 @@ Chaque sous-structure du projet aura son propre fichier Readme dédiée à la pa
 ```text
 .
 ├── 📁 Electronique        # Schémas et PCB (KiCad)
-│   ├── 📁 Lib                # Librairie Kicad
-│   ├── 📁 Clavier            # Code de l'émetteur
-│   └── 📁 Recepteur          # Code du récepteur
+│   ├── 📁 Lib              # Librairie Kicad
+│   ├── 📁 Clavier          # Code de l'émetteur
+│   └── 📁 Recepteur        # Code du récepteur
 ├── 📁 Informatique        # Code source ESP32
-│   ├── 📁 Clavier            # Code de l'émetteur
-│   └── 📁 Recepteur          # Code du récepteur
+│   ├── 📁 Clavier          # Code de l'émetteur
+│   └── 📁 Recepteur        # Code du récepteur
 ├── 📁 Mecanique          # Modèles 3D (STL/STEP)
-└── README.md               #README global du projet
+└── README.md                #README global du projet
 
