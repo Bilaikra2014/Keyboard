@@ -1,0 +1,31 @@
+void OnDataRecv(const uint8_t * mac, const uint8_t *incomingDataRaw, int len) {
+  memcpy(&incomingData, incomingDataRaw, sizeof(incomingData));
+  MajState = incomingData.maj;
+  CTRLState = incomingData.ctrl;
+  if (incomingData.cmd != '\0') {
+    uint16_t cmd_val = 0;
+    switch(incomingData.cmd){
+      case '+': cmd_val = CONSUMER_CONTROL_VOLUME_INCREMENT; break;
+      case '-': cmd_val = CONSUMER_CONTROL_VOLUME_DECREMENT; break;
+      case 'm': cmd_val = CONSUMER_CONTROL_MUTE; break;
+    }
+    if (cmd_val != 0) {
+      ConsumerControl.press(cmd_val);
+      ConsumerControl.release();
+    }
+  }
+  if (incomingData.maj) {
+    Keyboard.press(KEY_LEFT_SHIFT);
+  } else {
+    Keyboard.release(KEY_LEFT_SHIFT);
+  }
+  if(incomingData.ctrl){
+    Keyboard.press(KEY_LEFT_CTRL);
+  } else {
+    Keyboard.release(KEY_LEFT_CTRL);
+  }
+  if (incomingData.caractere != '\0') {    
+    Keyboard.write(_convert(incomingData.caractere));
+    Keyboard.releaseAll();
+  }  
+}

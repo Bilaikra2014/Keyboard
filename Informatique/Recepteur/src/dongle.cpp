@@ -6,75 +6,64 @@
 #include <USBHIDConsumerControl.h> // Ajouter ceci
 USBHIDKeyboard Keyboard;
 USBHIDConsumerControl ConsumerControl;
-bool MajState = false;
-bool previousMajState = true;
 
-bool CTRLState = false;
-bool previousCTRLState = true;
-
-typedef struct {
-  char caractere; 
-  char cmd;
-  bool maj = false;
-  bool ctrl = false;
-} struct_message;
-
-struct_message incomingData;
-
-char _convert(uint8_t c){
-  switch(c){
-    case 'a': return 'q'; // Pour afficher 'a', on doit "taper" sur la touche 'q'
-    case 'q': return 'a'; // Pour afficher 'q', on doit "taper" sur la touche 'a'
-    case 'z': return 'w'; // Pour afficher 'z', on doit "taper" sur la touche 'w'
-    case 'w': return 'z'; // Pour afficher 'w', on doit "taper" sur la touche 'z'
-    case 'm': return ';'; // Pour afficher 'm', on doit "taper" sur la touche ','
-    case ',': return 'm'; // Inversement
-    case ':': return 'M'; // Souvent nécessaire pour la ponctuation
-    default:  return c;
-  }
-}
+unsigned long winPressTime = 0;
+bool winActive = false;
+bool comboUsed = false;
 
 void OnDataRecv(const uint8_t * mac, const uint8_t *incomingDataRaw, int len) {
-  memcpy(&incomingData, incomingDataRaw, sizeof(incomingData));
-  MajState = incomingData.maj;
-  CTRLState = incomingData.ctrl;
-  // 1. Gérer les touches multimédia (Volume/Mute)
-  if (incomingData.cmd != '\0') {
-    uint16_t cmd_val = 0;
-    switch(incomingData.cmd){
-      case '+': cmd_val = CONSUMER_CONTROL_VOLUME_INCREMENT; break;
-      case '-': cmd_val = CONSUMER_CONTROL_VOLUME_DECREMENT; break;
-      case 'm': cmd_val = CONSUMER_CONTROL_MUTE; break;
+  uint16_t received;
+  memcpy(&received, incomingDataRaw, sizeof(received));
+
+  bool isReleased = (received & 0x8000);
+  uint16_t keyCode = (received & 0x7FFF);
+
+  // --- CAS DE LA TOUCHE WINDOWS ---
+  if (keyCode == KEY_LEFT_GUI) {
+    if (!isReleased) {
+      winActive = true;
+      comboUsed = false;
+      winPressTime = millis();
+      Keyboard.press(KEY_LEFT_GUI); // On prépare le modificateur
+      Serial.println("Win pressé (en attente...)");
+    } 
+    else {
+      winActive = false;
+      Keyboard.release(KEY_LEFT_GUI); // On relâche le modificateur
+      
+      // Si on relâche Win sans avoir utilisé de raccourci (ex: Win+R)
+      // et que l'appui était court (optionnel, ici on simplifie)
+      if (!comboUsed) {
+        Serial.println("Simple Tap détecté -> Envoi Ctrl+Esc");
+        Keyboard.press(KEY_LEFT_CTRL);
+        Keyboard.press(KEY_ESC);
+        delay(50);
+        Keyboard.releaseAll();
+      }
     }
-    if (cmd_val != 0) {
-      ConsumerControl.press(cmd_val);
-      ConsumerControl.release();
-    }
+    return;
   }
 
-  if (incomingData.maj) {
-      Keyboard.press(KEY_LEFT_SHIFT);
-  } else {
-      Keyboard.release(KEY_LEFT_SHIFT);
+  // --- CAS DES AUTRES TOUCHES ---
+  if (isReleased) {
+    Keyboard.release(keyCode);
+  } 
+  else {
+    if (winActive) {
+      comboUsed = true; // On marque qu'un raccourci est en cours (ex: Win + R)
+      Serial.println("Combinaison Windows + Touche détectée");
+    }
+    Keyboard.press(keyCode);
+    
+    // Si ce n'est pas une touche de modification (comme Shift), 
+    // on peut relâcher immédiatement pour simuler une frappe
+    if (keyCode != KEY_LEFT_SHIFT && keyCode != KEY_LEFT_CTRL && keyCode != KEY_LEFT_ALT) {
+       delay(20);
+       Keyboard.release(keyCode);
+    }
   }
-  if(incomingData.ctrl){
-    Keyboard.press(KEY_LEFT_CTRL);
-  } else {
-    Keyboard.release(KEY_LEFT_CTRL);
-  }
-
-  // 2. Gérer le clavier (Caractère + Shift)
-  if (incomingData.caractere != '\0') {    
-    Keyboard.write(_convert(incomingData.caractere));
-    Keyboard.releaseAll();
-  }  
 }
-
 void setup() {
-  pinMode(4,OUTPUT);
-  pinMode(5,OUTPUT);
-  digitalWrite(4,LOW);
-  digitalWrite(4,LOW);
   Serial.begin(115200);
   Keyboard.begin();
   ConsumerControl.begin();
@@ -84,15 +73,8 @@ void setup() {
   if (esp_now_init() != ESP_OK) return;
   esp_now_register_recv_cb(esp_now_recv_cb_t(OnDataRecv));
   delay(2000);
-}
-
+  ConsumerControl.press(CONSUMER_CONTROL_VOLUME_INCREMENT);
+  ConsumerControl.release();
+} 
 void loop() {
-  if(MajState != previousMajState){
-    digitalWrite(4,MajState);
-    previousMajState = MajState;
-  }
-  if(CTRLState != previousCTRLState){
-    digitalWrite(5,CTRLState);
-    previousCTRLState = CTRLState;
-  }
 }
